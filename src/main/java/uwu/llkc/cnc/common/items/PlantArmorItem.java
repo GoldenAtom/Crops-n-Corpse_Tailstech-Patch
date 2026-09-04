@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.AABB;
 import uwu.llkc.cnc.common.entities.plants.WallNut;
+import uwu.llkc.cnc.common.config.CNCConfig;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class PlantArmorItem extends Item {
             if (!nut.getEntityData().get(WallNut.HAS_ARMOR)) {
                 armorItem.shrink(1);
                 nut.getEntityData().set(WallNut.HAS_ARMOR, true);
-                nut.armorHealth = 300;
+                nut.armorHealth = CNCConfig.WALL_NUT_ARMOR_HEALTH.get().floatValue();
             }
 
             return true;

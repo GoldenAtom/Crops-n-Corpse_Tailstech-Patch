@@ -43,6 +43,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Vector3f;
 import uwu.llkc.cnc.CNCMod;
 import uwu.llkc.cnc.common.entities.plants.CNCPlant;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.entities.plants.CherryBomb;
 import uwu.llkc.cnc.common.entities.plants.PotatoMine;
 import uwu.llkc.cnc.common.entities.plants.WallNut;
@@ -207,7 +208,7 @@ public class NeoForgeEvents {
     @SubscribeEvent
     public static void drop(final BlockDropsEvent event) {
         if (event.getState().is(Blocks.CHERRY_LEAVES)) {
-            if (event.getLevel().getRandom().nextFloat() < 0.01f) {
+            if (event.getLevel().getRandom().nextFloat() < CNCConfig.CHERRY_BOMB_LEAF_SPAWN_CHANCE.get()) {
                 EntityTypeRegistry.CHERRY_BOMB.get().spawn(event.getLevel(), entity -> entity.getEntityData().set(CherryBomb.FLYING, true), event.getPos(), MobSpawnType.EVENT, false, false);
             }
         }

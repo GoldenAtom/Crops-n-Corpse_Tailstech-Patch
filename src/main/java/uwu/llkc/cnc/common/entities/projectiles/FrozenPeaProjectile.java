@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import uwu.llkc.cnc.common.entities.plants.CNCPlant;
 import uwu.llkc.cnc.common.init.DamageTypeInit;
 import uwu.llkc.cnc.common.init.EffectRegistry;
+import uwu.llkc.cnc.common.config.CNCConfig;
 
 public class FrozenPeaProjectile extends AbstractHurtingProjectile {
     public int damage;
@@ -76,12 +77,12 @@ public class FrozenPeaProjectile extends AbstractHurtingProjectile {
             if (getOwner() != null && getOwner() instanceof LivingEntity owner) {
                 entity.hurt(new DamageSource(level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeInit.FROZEN_PEA), this, owner), damage);
                 if (entity instanceof LivingEntity livingEntity) {
-                    livingEntity.addEffect(new MobEffectInstance(EffectRegistry.CHILL, 80));
+                    livingEntity.addEffect(new MobEffectInstance(EffectRegistry.CHILL, CNCConfig.SNOW_PEA_CHILL_DURATION_TICKS.get()));
                 }
             } else {
                 entity.hurt(new DamageSource(level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeInit.FROZEN_PEA), this), damage);
                 if (entity instanceof LivingEntity livingEntity) {
-                    livingEntity.addEffect(new MobEffectInstance(EffectRegistry.CHILL, 80));
+                    livingEntity.addEffect(new MobEffectInstance(EffectRegistry.CHILL, CNCConfig.SNOW_PEA_CHILL_DURATION_TICKS.get()));
                 }
             }
             discard();

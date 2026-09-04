@@ -20,6 +20,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uwu.llkc.cnc.common.entities.projectiles.PeaProjectile;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.init.EntityTypeRegistry;
 import uwu.llkc.cnc.common.init.SoundRegistry;
 
@@ -30,6 +31,7 @@ public class Peashooter extends CNCPlant implements RangedAttackMob {
 
     public Peashooter(EntityType<Peashooter> entityType, Level level) {
         super(entityType, level);
+        getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(CNCConfig.PEASHOOTER_ATTACK_RANGE.get());
     }
 
     public static AttributeSupplier.Builder attributes() {
@@ -44,10 +46,11 @@ public class Peashooter extends CNCPlant implements RangedAttackMob {
         super.registerGoals();
         goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6, 0.001f));
-        goalSelector.addGoal(0, new RangedAttackGoal(this, 1, 40, 30) {
+        float attackRange = CNCConfig.PEASHOOTER_ATTACK_RANGE.get().floatValue();
+        goalSelector.addGoal(0, new RangedAttackGoal(this, 1, CNCConfig.PEASHOOTER_ATTACK_INTERVAL_TICKS.get(), attackRange) {
             @Override
             public boolean canContinueToUse() {
-                var use = getTarget() != null && super.canContinueToUse() && distanceTo(getTarget()) < 30;
+                var use = getTarget() != null && super.canContinueToUse() && distanceTo(getTarget()) < attackRange;
                 if (!use) return false;
                 var angle = Math.toDegrees(Math.atan((getY() - getTarget().getY()) / (position().subtract(getTarget().position()).horizontalDistance())));
                 return angle > -60 && angle < 25;
@@ -88,7 +91,7 @@ public class Peashooter extends CNCPlant implements RangedAttackMob {
     public void performRangedAttack(@NotNull LivingEntity target, float velocity) {
         PeaProjectile projectile = EntityTypeRegistry.PEA.get().create(level());
         if (projectile == null) return;
-        projectile.damage = 3;
+        projectile.damage = CNCConfig.PEASHOOTER_PROJECTILE_DAMAGE.get();
         projectile.setPos(this.getX(), this.getEyeY(), this.getZ());
         projectile.setOwner(this);
         var targetPos = target.getBoundingBox().getCenter();

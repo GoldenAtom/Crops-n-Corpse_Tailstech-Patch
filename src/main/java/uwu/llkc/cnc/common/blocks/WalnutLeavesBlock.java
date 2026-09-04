@@ -8,6 +8,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import uwu.llkc.cnc.common.entities.plants.WallNut;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.init.EntityTypeRegistry;
 
 public class WalnutLeavesBlock extends LeavesBlock {
@@ -33,7 +34,7 @@ public class WalnutLeavesBlock extends LeavesBlock {
     @Override
     protected void spawnAfterBreak(BlockState state, ServerLevel level, BlockPos pos, ItemStack stack, boolean dropExperience) {
         super.spawnAfterBreak(state, level, pos, stack, dropExperience);
-        if (level.getRandom().nextFloat() < 0.005f) {
+        if (level.getRandom().nextFloat() < CNCConfig.WALL_NUT_LEAF_SPAWN_CHANCE.get()) {
             WallNut wallNut = EntityTypeRegistry.WALLNUT.get().create(level);
             if (wallNut != null) {
                 wallNut.moveTo((double) pos.getX() + 0.5, (double) pos.getY(), (double) pos.getZ() + 0.5, 0.0F, 0.0F);

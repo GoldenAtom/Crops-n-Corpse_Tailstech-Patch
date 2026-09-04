@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.PotatoBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import uwu.llkc.cnc.common.init.EntityTypeRegistry;
+import uwu.llkc.cnc.common.config.CNCConfig;
 
 @Mixin(PotatoBlock.class)
 public abstract class PotatoBlockMixin extends CropBlock {
@@ -20,7 +21,7 @@ public abstract class PotatoBlockMixin extends CropBlock {
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         super.randomTick(state, level, pos, random);
         if (getAge(level.getBlockState(pos)) == getMaxAge()) {
-            if (random.nextFloat() < 0.015) {
+            if (random.nextFloat() < CNCConfig.POTATO_MINE_CROP_SPAWN_CHANCE.get()) {
                 EntityTypeRegistry.POTATO_MINE.get().spawn(level, pos, MobSpawnType.SPAWNER);
             }
         }
@@ -30,7 +31,7 @@ public abstract class PotatoBlockMixin extends CropBlock {
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         super.performBonemeal(level, random, pos, state);
         if (getAge(level.getBlockState(pos)) == getMaxAge()) {
-            if (random.nextFloat() < 0.015) {
+            if (random.nextFloat() < CNCConfig.POTATO_MINE_CROP_SPAWN_CHANCE.get()) {
                 EntityTypeRegistry.POTATO_MINE.get().spawn(level, pos, MobSpawnType.SPAWNER);
             }
         }

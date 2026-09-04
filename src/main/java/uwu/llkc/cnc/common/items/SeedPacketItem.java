@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import static java.util.Map.entry;
@@ -60,12 +61,12 @@ public class SeedPacketItem<T extends Entity> extends Item {
             entry(EntityTypeRegistry.REPEATER.get(), ItemRegistry.REPEATER_SEED_PACKET.get())
     );
 
-    private final int sunCost;
-    private final int cooldown;
+    private final IntSupplier sunCost;
+    private final IntSupplier cooldown;
     private final Supplier<EntityType<T>> fallbackEntityType;
     private final boolean canBeLaunched;
 
-    public SeedPacketItem(Properties properties, int sunCost, int cooldown, Supplier<EntityType<T>> fallbackEntityType, boolean canBeLaunched) {
+    public SeedPacketItem(Properties properties, IntSupplier sunCost, IntSupplier cooldown, Supplier<EntityType<T>> fallbackEntityType, boolean canBeLaunched) {
         super(properties);
         this.sunCost = sunCost;
         this.cooldown = cooldown;
@@ -184,10 +185,10 @@ public class SeedPacketItem<T extends Entity> extends Item {
     }
 
     public int getCooldown() {
-        return cooldown;
+        return cooldown.getAsInt();
     }
 
     public int getSunCost() {
-        return sunCost;
+        return sunCost.getAsInt();
     }
 }

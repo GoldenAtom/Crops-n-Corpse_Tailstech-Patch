@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uwu.llkc.cnc.client.animations.PotatoMineAnimations;
 import uwu.llkc.cnc.common.entities.ai.FixedBodyRotationControl;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.init.SoundRegistry;
 import uwu.llkc.cnc.common.util.MessageDamageSource;
 
@@ -36,7 +37,7 @@ public class PotatoMine extends CNCPlant {
     public final AnimationState bulbBlink = new AnimationState();
     public final AnimationState explode = new AnimationState();
 
-    private int armingCooldown = 600;
+    private int armingCooldown = CNCConfig.POTATO_MINE_ARMING_TICKS.get();
     private int explosionCountdown = 0;
     private boolean isExploding = false;
 
@@ -123,7 +124,7 @@ public class PotatoMine extends CNCPlant {
         level().explode(this, new MessageDamageSource(damageSources().explosion(this, this), "death.attack.potato_mine"), new ExplosionDamageCalculator() {
             @Override
             public float getEntityDamageAmount(Explosion explosion, Entity entity) {
-                return ((float) getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+                return CNCConfig.POTATO_MINE_DAMAGE.get().floatValue();
             }
 
             @Override
@@ -135,7 +136,7 @@ public class PotatoMine extends CNCPlant {
                 }
                 return super.shouldDamageEntity(explosion, entity);
             }
-        }, getX(), getY(), getZ(), 1.5f, false, Level.ExplosionInteraction.NONE);
+        }, getX(), getY(), getZ(), CNCConfig.POTATO_MINE_EXPLOSION_RADIUS.get().floatValue(), false, Level.ExplosionInteraction.NONE);
         this.remove(RemovalReason.KILLED);
     }
 

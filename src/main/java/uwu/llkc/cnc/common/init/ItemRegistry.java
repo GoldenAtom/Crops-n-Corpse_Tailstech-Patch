@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import uwu.llkc.cnc.CNCMod;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.entities.plants.*;
 import uwu.llkc.cnc.common.items.*;
 
@@ -28,13 +29,13 @@ import java.util.function.Supplier;
 public class ItemRegistry {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CNCMod.MOD_ID);
 
-    public static final DeferredItem<SeedPacketItem<Peashooter>> PEASHOOTER_SEED_PACKET = ITEMS.registerItem("peashooter_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), 16, 40, EntityTypeRegistry.PEASHOOTER, false));
-    public static final DeferredItem<SeedPacketItem<SnowPea>> SNOW_PEA_SEED_PACKET = ITEMS.registerItem("snow_pea_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), 24, 40, EntityTypeRegistry.SNOW_PEA, false));
-    public static final DeferredItem<SeedPacketItem<Sunflower>> SUNFLOWER_SEED_PACKET = ITEMS.registerItem("sunflower_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), 0, 200, EntityTypeRegistry.SUNFLOWER, false));
-    public static final DeferredItem<SeedPacketItem<WallNut>> WALLNUT_SEED_PACKET = ITEMS.registerItem("wallnut_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), 8, 320, EntityTypeRegistry.WALLNUT, false));
-    public static final DeferredItem<SeedPacketItem<PotatoMine>> POTATO_MINE_SEED_PACKET = ITEMS.registerItem("potato_mine_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), 4, 320, EntityTypeRegistry.POTATO_MINE, false));
-    public static final DeferredItem<SeedPacketItem<Repeater>> REPEATER_SEED_PACKET = ITEMS.registerItem("repeater_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), 32, 60, EntityTypeRegistry.REPEATER, false));
-    public static final DeferredItem<SeedPacketItem<CherryBomb>> CHERRY_BOMB_SEED_PACKET = ITEMS.registerItem("cherry_bomb_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), 24, 900, EntityTypeRegistry.CHERRY_BOMB, true) {
+    public static final DeferredItem<SeedPacketItem<Peashooter>> PEASHOOTER_SEED_PACKET = ITEMS.registerItem("peashooter_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), () -> CNCConfig.PEASHOOTER_PACKET.sunCost().get(), () -> CNCConfig.PEASHOOTER_PACKET.cooldownTicks().get(), EntityTypeRegistry.PEASHOOTER, false));
+    public static final DeferredItem<SeedPacketItem<SnowPea>> SNOW_PEA_SEED_PACKET = ITEMS.registerItem("snow_pea_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), () -> CNCConfig.SNOW_PEA_PACKET.sunCost().get(), () -> CNCConfig.SNOW_PEA_PACKET.cooldownTicks().get(), EntityTypeRegistry.SNOW_PEA, false));
+    public static final DeferredItem<SeedPacketItem<Sunflower>> SUNFLOWER_SEED_PACKET = ITEMS.registerItem("sunflower_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), () -> CNCConfig.SUNFLOWER_PACKET.sunCost().get(), () -> CNCConfig.SUNFLOWER_PACKET.cooldownTicks().get(), EntityTypeRegistry.SUNFLOWER, false));
+    public static final DeferredItem<SeedPacketItem<WallNut>> WALLNUT_SEED_PACKET = ITEMS.registerItem("wallnut_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), () -> CNCConfig.WALL_NUT_PACKET.sunCost().get(), () -> CNCConfig.WALL_NUT_PACKET.cooldownTicks().get(), EntityTypeRegistry.WALLNUT, false));
+    public static final DeferredItem<SeedPacketItem<PotatoMine>> POTATO_MINE_SEED_PACKET = ITEMS.registerItem("potato_mine_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), () -> CNCConfig.POTATO_MINE_PACKET.sunCost().get(), () -> CNCConfig.POTATO_MINE_PACKET.cooldownTicks().get(), EntityTypeRegistry.POTATO_MINE, false));
+    public static final DeferredItem<SeedPacketItem<Repeater>> REPEATER_SEED_PACKET = ITEMS.registerItem("repeater_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), () -> CNCConfig.REPEATER_PACKET.sunCost().get(), () -> CNCConfig.REPEATER_PACKET.cooldownTicks().get(), EntityTypeRegistry.REPEATER, false));
+    public static final DeferredItem<SeedPacketItem<CherryBomb>> CHERRY_BOMB_SEED_PACKET = ITEMS.registerItem("cherry_bomb_seed_packet", props -> new SeedPacketItem<>(props.stacksTo(1), () -> CNCConfig.CHERRY_BOMB_PACKET.sunCost().get(), () -> CNCConfig.CHERRY_BOMB_PACKET.cooldownTicks().get(), EntityTypeRegistry.CHERRY_BOMB, true) {
         @Override
         protected <F extends Entity> Consumer<F> getConsumer(ServerLevel level, ItemStack stack, Player player, InteractionHand hand) {
             return super.<F>getConsumer(level, stack, player, hand).andThen(entity -> {
@@ -50,7 +51,7 @@ public class ItemRegistry {
             });
         }
     });
-    public static final DeferredItem<SeedPacketItem<Entity>> EMPTY_SEED_PACKET = ITEMS.registerItem("empty_seed_packet", props -> new SeedPacketItem<>(props, 0, 0, null, false));
+    public static final DeferredItem<SeedPacketItem<Entity>> EMPTY_SEED_PACKET = ITEMS.registerItem("empty_seed_packet", props -> new SeedPacketItem<>(props, () -> 0, () -> 0, null, false));
 
     public static final DeferredItem<Item> PLANT_FOOD = ITEMS.registerSimpleItem("plant_food");
     public static final DeferredItem<Item> SUN = ITEMS.registerSimpleItem("sun");
