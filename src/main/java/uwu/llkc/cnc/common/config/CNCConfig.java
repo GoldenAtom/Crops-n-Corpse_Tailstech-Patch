@@ -2,13 +2,6 @@ package uwu.llkc.cnc.common.config;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-/**
- * User-facing balance controls for Crops 'n' Corpses.
- *
- * <p>These are common settings because they affect server-side gameplay and
- * must agree for every player in a world. Spawn-list changes take effect after
- * restarting the game or dedicated server.</p>
- */
 public final class CNCConfig {
     public record SpawnSettings(
             ModConfigSpec.BooleanValue enabled,
