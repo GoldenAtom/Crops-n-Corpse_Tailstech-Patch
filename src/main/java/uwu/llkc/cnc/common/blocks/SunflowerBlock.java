@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.BlockHitResult;
 import uwu.llkc.cnc.common.init.EntityTypeRegistry;
 import uwu.llkc.cnc.common.init.ItemRegistry;
+import uwu.llkc.cnc.common.config.CNCConfig;
 
 public class SunflowerBlock extends TallFlowerBlock {
     public static final BooleanProperty HAS_SEEDS = BooleanProperty.create("has_seeds");
@@ -75,9 +76,9 @@ public class SunflowerBlock extends TallFlowerBlock {
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         super.randomTick(state, level, pos, random);
-        if (level.isDay() && !state.getValue(HAS_SEEDS) && random.nextFloat() < 0.02) {
+        if (level.isDay() && !state.getValue(HAS_SEEDS) && random.nextFloat() < CNCConfig.SUNFLOWER_SEED_GROWTH_CHANCE.get()) {
             level.setBlockAndUpdate(pos, state.setValue(HAS_SEEDS, true));
-            if (random.nextFloat() < 0.04f) {
+            if (random.nextFloat() < CNCConfig.SUNFLOWER_PLANT_SPAWN_CHANCE.get()) {
                 EntityTypeRegistry.SUNFLOWER.get().spawn(level, pos, MobSpawnType.SPAWNER);
             }
         }

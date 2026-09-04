@@ -27,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 import uwu.llkc.cnc.client.util.ClientProxy;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.entities.plants.CNCPlant;
 import uwu.llkc.cnc.common.init.ItemRegistry;
 import uwu.llkc.cnc.common.init.SoundRegistry;
@@ -64,11 +65,11 @@ public class Browncoat extends CNCZombie {
 
         if (oldHat != null && newHat != null) {
             if (oldHat.is(Items.BUCKET) && newHat.isEmpty()) {
-                if (random.nextFloat() < 0.085) {
+                if (random.nextFloat() < CNCConfig.BROWNCOAT_EQUIPMENT_DROP_CHANCE.get()) {
                     spawnAtLocation(Items.BUCKET);
                 }
             } else if (oldHat.is(ItemRegistry.TRAFFIC_CONE) && newHat.isEmpty()){
-                if (random.nextFloat() < 0.085) {
+                if (random.nextFloat() < CNCConfig.BROWNCOAT_EQUIPMENT_DROP_CHANCE.get()) {
                     spawnAtLocation(ItemRegistry.TRAFFIC_CONE);
                 }
             }
@@ -89,11 +90,11 @@ public class Browncoat extends CNCZombie {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         if (spawnType != MobSpawnType.SPAWN_EGG) {
-            if (random.nextFloat() < 0.30f) {
+            if (random.nextFloat() < CNCConfig.BROWNCOAT_CONE_CHANCE.get()) {
                 setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.TRAFFIC_CONE.get()));
-            } else if (random.nextFloat() < 0.15) {
+            } else if (random.nextFloat() < CNCConfig.BROWNCOAT_BUCKET_CHANCE.get()) {
                 setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.BUCKET));
-            } else if (random.nextFloat() < 0.05f) {
+            } else if (random.nextFloat() < CNCConfig.BROWNCOAT_FLAG_CHANCE.get()) {
                 setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ItemRegistry.FLAG.get()));
             }
         }

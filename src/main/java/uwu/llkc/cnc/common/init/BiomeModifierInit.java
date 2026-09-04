@@ -14,6 +14,7 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import uwu.llkc.cnc.CNCMod;
+import uwu.llkc.cnc.common.worldgen.ConfigSpawnBiomeModifier;
 
 public class BiomeModifierInit {
     public static final ResourceKey<BiomeModifier> PEASHOOTER_SPAWNS = ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, CNCMod.rl("peashooter_spawns"));
@@ -30,38 +31,22 @@ public class BiomeModifierInit {
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
 
-        context.register(PEASHOOTER_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                biomes.getOrThrow(Tags.Biomes.SPAWNS_PEASHOOTER),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.PEASHOOTER.get(), 50, 1, 2))
-        );
-        context.register(SNOW_PEA_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                biomes.getOrThrow(net.neoforged.neoforge.common.Tags.Biomes.IS_COLD),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.SNOW_PEA.get(), 50, 1, 2))
-        );
-        context.register(REPEATER_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                biomes.getOrThrow(Tags.Biomes.SPAWNS_PEASHOOTER),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.REPEATER.get(), 25, 1, 2))
-        );
-        context.register(WALL_NUT_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                biomes.getOrThrow(Tags.Biomes.SPAWNS_PEASHOOTER),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.WALLNUT.get(), 20, 1, 1))
-        );
-        context.register(SUNFLOWER_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                biomes.getOrThrow(Tags.Biomes.SPAWNS_SUNFLOWER),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.SUNFLOWER.get(), 50, 2, 3))
-        );
-        context.register(BROWNCOAT_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.BROWNCOAT.get(), 30, 3, 7))
-        );
-        context.register(IMP_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.IMP.get(), 20, 5, 7))
-        );
-        context.register(CHERRY_SPAWNS, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(
-                HolderSet.direct(biomes.getOrThrow(Biomes.CHERRY_GROVE)),
-                new MobSpawnSettings.SpawnerData(EntityTypeRegistry.CHERRY_BOMB.get(), 10, 1, 1)
-        ));
+        context.register(PEASHOOTER_SPAWNS, new ConfigSpawnBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.SPAWNS_PEASHOOTER), EntityTypeRegistry.PEASHOOTER.get(), "peashooter"));
+        context.register(SNOW_PEA_SPAWNS, new ConfigSpawnBiomeModifier(
+                biomes.getOrThrow(net.neoforged.neoforge.common.Tags.Biomes.IS_COLD), EntityTypeRegistry.SNOW_PEA.get(), "snow_pea"));
+        context.register(REPEATER_SPAWNS, new ConfigSpawnBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.SPAWNS_PEASHOOTER), EntityTypeRegistry.REPEATER.get(), "repeater"));
+        context.register(WALL_NUT_SPAWNS, new ConfigSpawnBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.SPAWNS_PEASHOOTER), EntityTypeRegistry.WALLNUT.get(), "wall_nut"));
+        context.register(SUNFLOWER_SPAWNS, new ConfigSpawnBiomeModifier(
+                biomes.getOrThrow(Tags.Biomes.SPAWNS_SUNFLOWER), EntityTypeRegistry.SUNFLOWER.get(), "sunflower"));
+        context.register(BROWNCOAT_SPAWNS, new ConfigSpawnBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), EntityTypeRegistry.BROWNCOAT.get(), "browncoat"));
+        context.register(IMP_SPAWNS, new ConfigSpawnBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), EntityTypeRegistry.IMP.get(), "imp"));
+        context.register(CHERRY_SPAWNS, new ConfigSpawnBiomeModifier(
+                HolderSet.direct(biomes.getOrThrow(Biomes.CHERRY_GROVE)), EntityTypeRegistry.CHERRY_BOMB.get(), "cherry_bomb"));
         context.register(WALNUT_TREE_PLACEMENT, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(biomes.getOrThrow(net.minecraft.world.level.biome.Biomes.FOREST)),
                 HolderSet.direct(context.lookup(Registries.PLACED_FEATURE).getOrThrow(PlacedFeatureInit.WALNUT_TREE)),

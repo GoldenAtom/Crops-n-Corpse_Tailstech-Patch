@@ -1,10 +1,6 @@
 {
-  "type": "neoforge:add_spawns",
+  "type": "cnc:config_spawn",
   "biomes": "minecraft:cherry_grove",
-  "spawners": {
-    "type": "cnc:cherry_bomb",
-    "maxCount": 1,
-    "minCount": 1,
-    "weight": 10
-  }
+  "config_key": "cherry_bomb",
+  "entity_type": "cnc:cherry_bomb"
 }

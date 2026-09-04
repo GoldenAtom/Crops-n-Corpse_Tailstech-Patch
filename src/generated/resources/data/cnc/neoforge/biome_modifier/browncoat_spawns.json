@@ -1,10 +1,6 @@
 {
-  "type": "neoforge:add_spawns",
+  "type": "cnc:config_spawn",
   "biomes": "#minecraft:is_overworld",
-  "spawners": {
-    "type": "cnc:browncoat",
-    "maxCount": 7,
-    "minCount": 3,
-    "weight": 30
-  }
+  "config_key": "browncoat",
+  "entity_type": "cnc:browncoat"
 }

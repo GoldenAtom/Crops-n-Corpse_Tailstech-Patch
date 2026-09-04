@@ -1,10 +1,6 @@
 {
-  "type": "neoforge:add_spawns",
+  "type": "cnc:config_spawn",
   "biomes": "#cnc:spawns_peashooter",
-  "spawners": {
-    "type": "cnc:peashooter",
-    "maxCount": 2,
-    "minCount": 1,
-    "weight": 50
-  }
+  "config_key": "peashooter",
+  "entity_type": "cnc:peashooter"
 }

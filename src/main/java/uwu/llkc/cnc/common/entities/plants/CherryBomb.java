@@ -44,6 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import uwu.llkc.cnc.common.entities.ai.CherryRandomLookAroundGoal;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.entities.ai.FixedBodyRotationControl;
 import uwu.llkc.cnc.common.entities.ai.IMultiHeadEntity;
 import uwu.llkc.cnc.common.entities.ai.MultiHeadLookControl;
@@ -183,20 +184,21 @@ public class CherryBomb extends CNCPlant implements VibrationSystem, IMultiHeadE
                 if (player != null && !player.getUUID().equals(getOwnerUUID())) {
                     isExploding = true;
                 } else {
-                    var entity = level().getNearestEntity(Monster.class, TargetingConditions.DEFAULT, this, getX(), getY(), getZ(), AABB.ofSize(position(), 3.5, 3.5, 3.5));
+                    double triggerRange = CNCConfig.CHERRY_BOMB_TRIGGER_RANGE.get();
+                    var entity = level().getNearestEntity(Monster.class, TargetingConditions.DEFAULT, this, getX(), getY(), getZ(), AABB.ofSize(position(), triggerRange, triggerRange, triggerRange));
                     if (entity != null) {
                         isExploding = true;
                     } else if (getOwner() != null) {
                         var mob = getOwner().getLastHurtMob();
                         if (mob != null &&
-                                mob.distanceToSqr(this) < 12.25 &&
+                                mob.distanceToSqr(this) < triggerRange * triggerRange &&
                                 mob instanceof CNCPlant plant &&
                                 (plant.getOwnerUUID() == null || !plant.getOwnerUUID().equals(getOwnerUUID()))) {
                             isExploding = true;
                         } else {
                             mob = getOwner().getLastHurtByMob();
                             if (mob != null &&
-                                    mob.distanceToSqr(this) < 12.25 &&
+                                    mob.distanceToSqr(this) < triggerRange * triggerRange &&
                                     mob instanceof CNCPlant plant &&
                                     (plant.getOwnerUUID() == null || !plant.getOwnerUUID().equals(getOwnerUUID()))) {
                                 isExploding = true;
@@ -270,7 +272,7 @@ public class CherryBomb extends CNCPlant implements VibrationSystem, IMultiHeadE
             @Override
             public float getEntityDamageAmount(Explosion explosion, Entity entity) {
                 if (entity instanceof CherryBomb) {return 0;}
-                return ((float) getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+                return CNCConfig.CHERRY_BOMB_DAMAGE.get().floatValue();
             }
 
             @Override
@@ -290,7 +292,7 @@ public class CherryBomb extends CNCPlant implements VibrationSystem, IMultiHeadE
                 }
                 return super.shouldDamageEntity(explosion, entity);
             }
-        }, getX(), getY(), getZ(), 2f, false, Level.ExplosionInteraction.MOB);
+        }, getX(), getY(), getZ(), CNCConfig.CHERRY_BOMB_EXPLOSION_RADIUS.get().floatValue(), false, Level.ExplosionInteraction.MOB);
         this.remove(RemovalReason.KILLED);
     }
 

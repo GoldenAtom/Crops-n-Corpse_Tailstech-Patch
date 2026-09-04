@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import uwu.llkc.cnc.common.entities.ai.SpawnItemGoal;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.init.ItemRegistry;
 import uwu.llkc.cnc.common.init.SoundRegistry;
 
@@ -35,7 +36,10 @@ public class Sunflower extends CNCPlant {
         super.registerGoals();
         goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6, 0.001f));
-        goalSelector.addGoal(3, new SpawnItemGoal(new ItemStack(ItemRegistry.SUN.asItem(), 1), 8, this, true, 1120, 1200, 40));
+        int minimum = CNCConfig.SUNFLOWER_MIN_PRODUCTION_TICKS.get();
+        int maximum = Math.max(minimum, CNCConfig.SUNFLOWER_MAX_PRODUCTION_TICKS.get());
+        goalSelector.addGoal(3, new SpawnItemGoal(new ItemStack(ItemRegistry.SUN.asItem(), 1),
+                CNCConfig.SUNFLOWER_OWNER_RANGE.get().floatValue(), this, true, minimum, maximum, 40));
     }
 
     @Override

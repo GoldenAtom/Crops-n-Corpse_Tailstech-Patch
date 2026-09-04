@@ -1,10 +1,6 @@
 {
-  "type": "neoforge:add_spawns",
+  "type": "cnc:config_spawn",
   "biomes": "#cnc:spawns_peashooter",
-  "spawners": {
-    "type": "cnc:wallnut",
-    "maxCount": 1,
-    "minCount": 1,
-    "weight": 20
-  }
+  "config_key": "wall_nut",
+  "entity_type": "cnc:wallnut"
 }

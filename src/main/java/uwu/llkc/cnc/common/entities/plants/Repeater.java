@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uwu.llkc.cnc.common.entities.ai.MultipleRangedAttackGoal;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.entities.projectiles.PeaProjectile;
 import uwu.llkc.cnc.common.init.EntityTypeRegistry;
 import uwu.llkc.cnc.common.init.SoundRegistry;
@@ -28,6 +29,7 @@ public class Repeater extends CNCPlant implements RangedAttackMob {
 
     public Repeater(EntityType<Repeater> entityType, Level level) {
         super(entityType, level);
+        getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(CNCConfig.REPEATER_ATTACK_RANGE.get());
     }
 
     public static AttributeSupplier.Builder attributes() {
@@ -42,10 +44,12 @@ public class Repeater extends CNCPlant implements RangedAttackMob {
         super.registerGoals();
         goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 6, 0.001f));
-        goalSelector.addGoal(0, new MultipleRangedAttackGoal(this, 1, 40, 30, 5, 2) {
+        float attackRange = CNCConfig.REPEATER_ATTACK_RANGE.get().floatValue();
+        goalSelector.addGoal(0, new MultipleRangedAttackGoal(this, 1, CNCConfig.REPEATER_ATTACK_INTERVAL_TICKS.get(), attackRange,
+                CNCConfig.REPEATER_SHOT_GAP_TICKS.get(), CNCConfig.REPEATER_SHOT_COUNT.get()) {
             @Override
             public boolean canContinueToUse() {
-                var use = getTarget() != null && super.canContinueToUse() && distanceTo(getTarget()) < 30;
+                var use = getTarget() != null && super.canContinueToUse() && distanceTo(getTarget()) < attackRange;
                 if (!use) return false;
                 var angle = Math.toDegrees(Math.atan((getY() - getTarget().getY()) / (position().subtract(getTarget().position()).horizontalDistance())));
                 return angle > -60 && angle < 25;
@@ -71,7 +75,7 @@ public class Repeater extends CNCPlant implements RangedAttackMob {
     public void performRangedAttack(@NotNull LivingEntity target, float velocity) {
         PeaProjectile projectile = EntityTypeRegistry.PEA.get().create(level());
         if (projectile == null) return;
-        projectile.damage = 3;
+        projectile.damage = CNCConfig.REPEATER_PROJECTILE_DAMAGE.get();
         projectile.setPos(this.getX(), this.getEyeY(), this.getZ());
         projectile.setOwner(this);
         var targetPos = target.getBoundingBox().getCenter();

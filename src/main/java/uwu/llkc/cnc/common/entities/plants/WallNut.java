@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uwu.llkc.cnc.common.entities.ai.FixedBodyRotationControl;
+import uwu.llkc.cnc.common.config.CNCConfig;
 import uwu.llkc.cnc.common.init.ItemRegistry;
 import uwu.llkc.cnc.common.init.SoundRegistry;
 
@@ -36,7 +37,7 @@ public class WallNut extends CNCPlant {
     public final AnimationState stage3 = new AnimationState();
     public final AnimationState death = new AnimationState();
 
-    public float armorHealth = 300;
+    public float armorHealth = CNCConfig.WALL_NUT_ARMOR_HEALTH.get().floatValue();
 
     public WallNut(EntityType<WallNut> entityType, Level level) {
         super(entityType, level);
@@ -147,7 +148,7 @@ public class WallNut extends CNCPlant {
                 if (player.getItemInHand(hand).getItem() == ItemRegistry.PLANT_ARMOR.get()) {
                     playSound(SoundEvents.ARMOR_EQUIP_IRON.value());
                     getEntityData().set(HAS_ARMOR, true);
-                    armorHealth = 300;
+                    armorHealth = CNCConfig.WALL_NUT_ARMOR_HEALTH.get().floatValue();
                     player.getItemInHand(hand).shrink(1);
                     return InteractionResult.SUCCESS;
                 }
